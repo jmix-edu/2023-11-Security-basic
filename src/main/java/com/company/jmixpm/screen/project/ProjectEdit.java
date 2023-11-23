@@ -10,6 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 @UiDescriptor("project-edit.xml")
 @EditedEntityContainer("projectDc")
 public class ProjectEdit extends StandardEditor<Project> {
+    @Autowired
+    private CurrentAuthentication currentAuthentication;
 
+    @Subscribe
+    public void onInitEntity(final InitEntityEvent<Project> event) {
+        User manager = (User) currentAuthentication.getUser();
+        event.getEntity().setManager(manager);
+    }
 
 }
